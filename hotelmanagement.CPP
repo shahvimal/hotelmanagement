@@ -25,8 +25,9 @@ int main()
 }
 void menu(int counter)
 {
-    int n,count1;
-
+    int n,count1,i=1;
+    while(i==1)
+    {
 	printf("\t\t MENU \n1.\t ALL ROOMS.\n2.\t AVAILABLE ROOMS.\n3.\t BOOK ROOM.\n4.\t CHECK OUT OF ROOM.\n5.\t ADD ROOM.\n6.\t EXIT.");
 	scanf("%d",&n);
 
@@ -51,11 +52,12 @@ void menu(int counter)
         counter=add_database();
 		break;
 	case 6:
+	    i=0;
         break;
 	default :
-		printf("\t\t MENU \n1.\t ALL ROOMS.\n2.\t AVAILABLE ROOMS.\n3.\t BOOK ROOM.\n4.\t CHECK OUT OF ROOM.\n5.\t ADD ROOM.");
+	    break;
 	}
-
+    }
 }
 
 
@@ -79,13 +81,13 @@ int add_database()
 
 	while(i<n)
 	{
-	printf("enter the rooom no::\t");
+	printf("Enter the rooom no::\t");
 	scanf("%d",&hotel_data[i].room_num);
-	printf("\nenter the type::\tAC\t,\tNON-AC\t");
+	printf("\nEnter the type::\t A--AC\t,\t N--NON-AC\t");
 	scanf(" %c",&hotel_data[i].type);
-	printf("\nenter the price::\t");
+	printf("\nEnter the price::\t");
 	scanf("%d",&hotel_data[i].price);
-	printf("\navailability:(Y:yes,N:no):\t");
+	printf("\nAvailability:(Y:yes,N:no):\t");
 	scanf(" %c",&hotel_data[i].availability);
 	++counter;
 	i++;
@@ -101,8 +103,11 @@ int all_available_rooms(int counter)
       if(hotel_data[i].availability=='Y'||hotel_data[i].availability=='y')
       {
         ++count1;
-        printf("\n %d ROOM NO:: %d\n TYPE:: %c \t PRICE %d per day::\n availability %c\n\n",i+1,hotel_data[i].room_num,hotel_data[i].type,hotel_data[i].price,hotel_data[i].availability);
+        printf("\n %d ROOM NO:: %d\n TYPE:: %c \t PRICE %d per day::\n availability %c (A--AC,N--NON AC)\n\n",i+1,hotel_data[i].room_num,hotel_data[i].type,hotel_data[i].price,hotel_data[i].availability);
       }
+
+      else
+        printf("There is no avaliable room");
     }
     return count1;
 }
@@ -111,25 +116,25 @@ int book(int counter,int count1)
 {
     char t1,t2,i;
     count1 = all_available_rooms(counter);
-    printf("\nenter the type of room required :A=AC, N= NON-AC:\t");
+    printf("\nEnter the type of room required :A--AC, N--NON-AC:\t");
     scanf(" %c",&t1);
     for(i=0;i<counter;i++)
     {
 
         if((hotel_data[i].availability=='Y'||hotel_data[i].availability=='y')&&hotel_data[i].type==t1)
         {
-            printf("\ndo you want to book\t Y--yes,N--NO");
+            printf("\nDo you want to book\t Y--yes,N--NO");
             scanf(" %c",&t2);
             if(t2=='Y')
             {
                 hotel_data[i].days=0;
                 hotel_data[i].availability='N';
-                printf("enter the name of the customer::\t");
+                printf("Enter the name of the customer::\t");
                 scanf(" %s",&hotel_data[i].name);
                 --count1;
                 printf("\n   for how many days do you wish to stay?");
                 scanf("%d",&hotel_data[i].days);
-                printf("\n thankyou for choosing our hotel your booking has been confirmed!!\n Have a pleasant stay ");
+                printf("\n thankyou for choosing our hotel your booking has been confirmed!!\n Have a pleasant stay\n ");
                 menu(counter);
             }
             else
@@ -180,5 +185,5 @@ void bill(int i)
 {
     int amount=0;
     amount=hotel_data[i].days*hotel_data[i].price;
-    printf("the bill totaled is ::\t%d\n\n",amount);
+    printf("The bill totaled is ::\t%d\n\n",amount);
 }
